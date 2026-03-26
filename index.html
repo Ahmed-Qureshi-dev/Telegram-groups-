@@ -49,6 +49,173 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <link rel="shortcut icon" href="bitcoin.ico" type="image/x-icon">
+
+<style>
+/* ===== DISCLAIMER OVERLAY ===== */
+#disclaimerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayFadeIn 0.4s ease forwards;
+}
+
+#disclaimerOverlay.show {
+  display: flex;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.disclaimer-box {
+  background: #0d0d0d;
+  border: 1.5px solid rgba(255, 50, 50, 0.45);
+  border-radius: 16px;
+  max-width: 520px;
+  width: 100%;
+  position: relative;
+  animation: boxSlideIn 0.4s ease forwards;
+  overflow: hidden;
+}
+
+@keyframes boxSlideIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Red top accent line */
+.disclaimer-box::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #ff1a1a, #ff6b6b, #ff1a1a);
+  width: 100%;
+}
+
+.disclaimer-inner {
+  padding: 28px 28px 26px;
+}
+
+/* Close button */
+.disclaimer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid rgba(255, 80, 80, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 30, 30, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.18s;
+  padding: 0;
+}
+
+.disclaimer-close:hover {
+  background: rgba(255, 30, 30, 0.22);
+  border-color: rgba(255, 80, 80, 0.7);
+}
+
+/* X icon drawn in pure CSS */
+.disclaimer-close::before,
+.disclaimer-close::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: #ff4444;
+  border-radius: 2px;
+}
+.disclaimer-close::before { transform: rotate(45deg); }
+.disclaimer-close::after  { transform: rotate(-45deg); }
+
+/* Header row */
+.disclaimer-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 18px;
+  padding-right: 36px;
+}
+
+/* Warning triangle icon — pure SVG */
+.disclaimer-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.disclaimer-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+  color: #ff3333;
+}
+
+/* Divider */
+.disclaimer-divider {
+  height: 1px;
+  background: rgba(255, 50, 50, 0.2);
+  margin-bottom: 18px;
+}
+
+/* Body text */
+.disclaimer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.disclaimer-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: #ffffff;
+  line-height: 1.78;
+}
+
+/* Bullet dot */
+.disclaimer-item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff3333;
+  margin-top: 6px;
+}
+
+/* Footer note */
+.disclaimer-footer {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 50, 50, 0.15);
+  font-size: 0.66rem;
+  color: #cccccc;
+  text-align: center;
+  letter-spacing: 0.3px;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  .disclaimer-inner { padding: 22px 18px 20px; }
+  .disclaimer-title { font-size: 1.05rem; }
+  .disclaimer-item  { font-size: 0.74rem; }
+}
+</style>
 </head>
 <body>
 
@@ -58,11 +225,51 @@
 <!-- INTRO ANIMATION -->
 <div id="intro">
   <div class="coin-wrap">
-    <!-- Bitcoin coin PNG — white bg removed via CSS mix-blend-mode -->
     <img id="coinImg" src="bitcoin.png" alt="Bitcoin" />
   </div>
   <div class="intro-title">Crypto Groups Hub</div>
   <div class="intro-sub">250+ Free Telegram Groups</div>
+</div>
+
+<!-- DISCLAIMER OVERLAY (shown after intro) -->
+<div id="disclaimerOverlay" role="dialog" aria-modal="true" aria-labelledby="disclaimerTitle">
+  <div class="disclaimer-box">
+    <button class="disclaimer-close" id="disclaimerClose" aria-label="Close disclaimer"></button>
+    <div class="disclaimer-inner">
+
+      <div class="disclaimer-header">
+        <!-- Warning triangle SVG icon -->
+        <svg class="disclaimer-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M18 3L33.5885 30H2.4115L18 3Z" fill="rgba(255,30,30,0.12)" stroke="#ff3333" stroke-width="1.6" stroke-linejoin="round"/>
+          <rect x="16.5" y="13" width="3" height="10" rx="1.5" fill="#ff3333"/>
+          <rect x="16.5" y="25.5" width="3" height="3" rx="1.5" fill="#ff3333"/>
+        </svg>
+        <div id="disclaimerTitle" class="disclaimer-title">Disclaimer</div>
+      </div>
+
+      <div class="disclaimer-divider"></div>
+
+      <div class="disclaimer-body">
+        <div class="disclaimer-item">
+          You will find many different Telegram groups on this website, and all of them are public. We do not own or manage any of these groups.
+        </div>
+        <div class="disclaimer-item">
+          It is mandatory to follow all the rules and regulations of any Telegram group. We are not responsible for any content shared inside the groups.
+        </div>
+        <div class="disclaimer-item">
+          You can join and utilize any of the above groups or other media at your own risk.
+        </div>
+        <div class="disclaimer-item">
+          If you face any kind of harm, damage, or fraud, our website will not be responsible.
+        </div>
+      </div>
+
+      <div class="disclaimer-footer">
+        By continuing, you confirm that you have read and understood this disclaimer.
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- MAIN SITE -->
@@ -81,7 +288,6 @@
       <div class="ticker-item"><b>AVAX</b> $38.4   <span class="up">+2.0%</span></div>
       <div class="ticker-item"><b>PEPE</b> $0.000011 <span class="up">+5.1%</span></div>
       <div class="ticker-item"><b>SUI</b> $4.22    <span class="up">+3.8%</span></div>
-      <!-- duplicate for seamless loop -->
       <div class="ticker-item"><b>BTC</b> $84,210 <span class="up">+2.4%</span></div>
       <div class="ticker-item"><b>ETH</b> $3,195  <span class="up">+1.9%</span></div>
       <div class="ticker-item"><b>SOL</b> $178     <span class="dn">-0.6%</span></div>
@@ -223,6 +429,52 @@
 <!-- Load data then app -->
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<script>
+(function () {
+  /* Timing:
+     - Intro animation finishes around 2.7s (coin flip 2.2s + sub fade 2.2+0.5s)
+     - app.js hides intro after 2800ms typically
+     - We show disclaimer 400ms after intro starts hiding = ~3200ms total
+  */
+  var DISCLAIMER_DELAY = 3200; // ms after page load
+
+  var overlay = document.getElementById('disclaimerOverlay');
+  var closeBtn = document.getElementById('disclaimerClose');
+
+  function showDisclaimer() {
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDisclaimer() {
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.28s ease';
+    setTimeout(function () {
+      overlay.classList.remove('show');
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+      document.body.style.overflow = '';
+    }, 280);
+  }
+
+  setTimeout(showDisclaimer, DISCLAIMER_DELAY);
+
+  closeBtn.addEventListener('click', closeDisclaimer);
+
+  /* Close on overlay background click */
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeDisclaimer();
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('show')) {
+      closeDisclaimer();
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
