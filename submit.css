@@ -224,9 +224,20 @@ textarea { resize: vertical; min-height: 72px; }
   margin-bottom: 16px;
 }
 
-.payment-title { font-size: 0.7rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.payment-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
 
-.payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 9px;
+}
 
 .pay-option {
   background: var(--bg1);
@@ -245,9 +256,24 @@ textarea { resize: vertical; min-height: 72px; }
 }
 
 .pay-option:hover,
-.pay-option.selected { border-color: var(--gold); color: var(--gold); background: rgba(245,197,24,0.05); }
+.pay-option.selected {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(245,197,24,0.05);
+}
 
-.pay-note { font-size: 0.62rem; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+/* TRC20 — 5th item spans both columns, centered */
+.pay-option:nth-child(5) {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.pay-note {
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.6;
+}
 
 /* ===== AGREEMENT ===== */
 .agreement { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
