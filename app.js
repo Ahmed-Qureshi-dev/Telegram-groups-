@@ -43,7 +43,7 @@ function renderGrid() {
       <div class="card-footer">
         <div class="card-members">Members: <span>${g.members}</span></div>
         <a href="${link}" target="_blank" rel="noopener noreferrer" class="join-btn">
-          ${TG_SVG} Join
+          ${TG_SVG} Join Free
         </a>
       </div>
     </div>`;
@@ -104,13 +104,11 @@ function initCandleBg() {
       ctx.fillStyle   = bull ? '#00E676' : '#FF1744';
       ctx.lineWidth   = 2;
 
-      // Wick
       ctx.beginPath();
       ctx.moveTo(x + candleW / 2, wickT);
       ctx.lineTo(x + candleW / 2, wickB);
       ctx.stroke();
 
-      // Body
       ctx.fillRect(x, bodyY, candleW, bodyH);
     }
   }
@@ -121,24 +119,56 @@ function initCandleBg() {
 
 // ===== INTRO =====
 function runIntro() {
-  // Set coin image from file
-  const coinImg = document.getElementById('coinImg');
-  if (coinImg) {
-    coinImg.src = 'bitcoin.png';
-  }
+  const coinImg         = document.getElementById('coinImg');
+  const telegramImg     = document.getElementById('telegramImg');
+  const coinWrap        = document.querySelector('.coin-wrap');
+  const introDisclaimer = document.getElementById('introDisclaimer');
+  const introLoader     = document.getElementById('introLoader');
+  const intro           = document.getElementById('intro');
+  const site            = document.getElementById('site');
+
+  if (coinImg) coinImg.src = 'bitcoin.png';
+  if (telegramImg) telegramImg.style.display = 'block';
 
   renderGrid();
   initCandleBg();
 
+  // Step 1 — spin finishes at ~2.2s → slide logos UP
   setTimeout(() => {
-    const intro = document.getElementById('intro');
-    const site  = document.getElementById('site');
-    intro.classList.add('hide');
+    coinWrap.classList.add('logos-up');
+
+    // Step 2 — show loading dots briefly after slide starts
     setTimeout(() => {
-      intro.style.display = 'none';
-      site.classList.add('visible');
-    }, 420);
-  }, 2700);
+      if (introLoader) {
+        introLoader.classList.add('loader-show');
+      }
+
+      // Step 3 — hide loader, show disclaimer
+      setTimeout(() => {
+        if (introLoader) introLoader.classList.remove('loader-show');
+
+        setTimeout(() => {
+          introDisclaimer.style.display = 'block';
+          // Force reflow so transition fires
+          introDisclaimer.getBoundingClientRect();
+          introDisclaimer.classList.add('disclaimer-show');
+
+          // Step 4 — after 3s of disclaimer, fade out intro → open site
+          setTimeout(() => {
+            intro.classList.add('hide');
+            setTimeout(() => {
+              intro.style.display = 'none';
+              site.classList.add('visible');
+            }, 420);
+          }, 3000);
+
+        }, 200); // small gap after loader hides
+
+      }, 1200); // loader shows for 1.2s
+
+    }, 400); // wait for slide to settle
+
+  }, 2200); // wait for spin to finish
 }
 
 window.addEventListener('load', runIntro);
