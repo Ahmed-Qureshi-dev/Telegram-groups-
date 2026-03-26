@@ -1,0 +1,41 @@
+/* HUMANS.TXT */
+/* The humans responsible & colophon */
+
+/* TEAM */
+Site: CryptoGroupsHub
+Title: Free Crypto Telegram Groups Directory
+Description: Directory of 250+ free crypto Telegram groups with trading signals, news, and DeFi alerts
+Launch Date: 2025
+
+/* LOCATION */
+Pakistan
+
+/* CONTACT */
+Email: contact@cryptogroupshub.com
+Twitter: @CryptoGroupsHub
+Telegram: https://t.me/mircrypto0
+
+/* TECHNOLOGY STACK */
+Language: HTML5, CSS3, JavaScript (Vanilla)
+Server: Web
+Database: Static JSON (data.js)
+Type: Directory / Listing Site
+
+/* SOFTWARE TOOLS */
+Editor: VS Code
+Version Control: Git
+Browser Testing: Chrome, Firefox, Safari, Edge
+
+/* FEATURES */
+- 250+ curated crypto Telegram groups
+- Real-time crypto price ticker
+- Advanced filtering by category
+- Group member counts and badges
+- Premium group listings
+- Submission system for group owners
+- SEO optimized
+- Mobile responsive design
+- Candlestick animated background
+
+/* LAST UPDATED */
+March 26, 2026
